@@ -1,4 +1,4 @@
- 3D Printing Management Web App 
+ Electric Vessel Energy Estimator Web App
 
  Note: This was setup in Windows so steps for Linux or Mac might differ 
  and will need to be researched (Sorry) 
