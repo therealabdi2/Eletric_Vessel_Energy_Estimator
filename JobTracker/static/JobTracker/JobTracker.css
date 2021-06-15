@@ -1,0 +1,106 @@
+.mainheader {
+    padding-top:1rem;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.bodyContent{
+    text-align: left;
+    background-color: linear-gradient( rgb(35, 96, 228), rgb(35, 215, 228));
+    min-height: 700px;
+
+}
+
+.bodyContent1{
+    text-align: left;
+    padding: 1rem 1rem;
+    background-color:  rgb(35, 215, 228);
+
+}
+
+
+.blurBackground{
+    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    font-weight: bold;
+    border: 3px solid #f1f1f1;    
+    z-index: 2;  
+    margin-top: 2rem;  
+    padding-bottom: 2rem;
+    padding: 
+}
+
+.updatePage{
+    color: white;
+}
+/* Accounts styling */
+.baseAccount {
+    background-color: rgb(14, 178, 243);
+    text-align: center;   
+}
+
+.card{
+    width: 18rem;
+    margin:auto;
+    margin-bottom: 2rem;
+    background-color: rgba(0, 255, 255, 0.719);
+   
+}
+
+.accountMenu{
+    margin-bottom: 2rem;
+}
+
+.logoutBtn{
+    position: absolute;
+    right: 1rem;
+}
+
+.header {
+    padding-top:2rem;
+    background-color: red;
+}
+
+.mainNavbar {
+    background-color: #03169D;
+}
+
+.aboutCard {
+    width: 75%; 
+    border: 5px solid #EEE500; 
+    padding: 40px; 
+    margin: auto; 
+    text-align:center
+}
+
+.cardImg{
+    height: 100px;
+    width: 200px;
+    margin: auto; 
+    margin-bottom: 1%;
+}
+
+.createJobContainer{
+  background-color: rgb(156, 223, 228);
+  padding: 1rem 1rem;
+}
+
+#badge{
+    margin:auto;
+}
+
+#updateJobContainer{
+    padding: 20% 0;
+}
+
+@media(min-width:850px)
+{    
+    .aboutCard {
+        width: 48rem; 
+        border: 5px solid #EEE500; 
+        padding: 40px; 
+        margin: auto; 
+        text-align:center
+    }
+}
+

@@ -1,0 +1,65 @@
+
+<!doctype html>
+{% load static %}
+<html lang="en" id="root">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- javascript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'JobTracker/JobTracker.css' %}">
+    <link rel="stylesheet" href="{% static 'payments.css' %}">
+     <div class="container-fluid js-nav">                   
+            <nav class="navbar navbar-expand-lg navbar-light mainNavbar">
+                <a class="navbar-brand" href="{% url 'about' %}" style="color:#EEE500; padding-right:10px; font-weight: bold">3D Printing UVic</a>
+                 
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <div class="navbar-nav">               
+                        <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" href="{% url 'view' %}">View Jobs <span class="sr-only">(current)</span></a>                 
+                        <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link"  href="{% url 'create' %}">Create Job</a>             
+                        <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" href="{% url 'about' %}">About</a>             
+                        {% if user.isAdminUser %}                            
+                            <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" id="Navbutton" href="{% url 'update' %}">Update Job</a>           
+                        {% else %}                   
+                            <a style="padding:10px; color:#66b3ff"  id="Navbutton" href="{% url 'admin:index' %}" class="nav-item nav-link disabled">Admin</a>                  
+                        {% endif %}
+                        {% if user.is_staff %}
+                           <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" id="Navbutton" href="{% url 'admin:index' %}">Super Admin</a>
+                        {% endif %}
+                        <a class="nav-item navbar-link btn btn-danger logoutBtn" href="{% url 'account_logout' %}" role="button">Logout</a>
+                    </div>
+                </div>
+                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>               
+            </nav>        
+     
+       </div>
+  </head>  
+  <body class="bodyContent" style="background: url('/static/JobTracker/bck3.jpg') no-repeat center center fixed; background-size: cover;">    
+        <div class="container-fluid" style="position: relative; padding-bottom:2.5rem">
+          <div class="blurBackground">
+            {% block pageContent %}
+            {% endblock %}
+           </div>
+        </div>
+        <footer id="baseFooter" style="background-color: #03169D;">           
+                <p style="color:#66b3ff; padding: 4px; text-align: center">ECE 356 Team Project CopyRight@2020</p>
+        </footer>                   
+  </body>
+    
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="{% static 'payments.js' %}"></script> 
+</html>
