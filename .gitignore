@@ -107,3 +107,4 @@ JobTracker/__pycache__/forms.cpython-38.pyc
 JobTracker/__pycache__/models.cpython-38.pyc
 JobTracker/__pycache__/urls.cpython-38.pyc
 JobTracker/__pycache__/views.cpython-38.pyc
+*.pyc

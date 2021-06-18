@@ -18,20 +18,20 @@
     <link rel="stylesheet" href="{% static 'payments.css' %}">
      <div class="container-fluid js-nav">                   
             <nav class="navbar navbar-expand-lg navbar-light mainNavbar">
-                <a class="navbar-brand" href="{% url 'about' %}" style="color:#EEE500; padding-right:10px; font-weight: bold">3D Printing UVic</a>
+                <a class="navbar-brand" href="{% url 'about' %}" style="color:#0f2189; padding-right:10px; font-weight: bold">EVEE System</a>
                  
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <div class="navbar-nav">               
-                        <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" href="{% url 'view' %}">View Jobs <span class="sr-only">(current)</span></a>                 
-                        <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link"  href="{% url 'create' %}">Create Job</a>             
-                        <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" href="{% url 'about' %}">About</a>             
-                        {% if user.isAdminUser %}                            
+                        <a style="padding:10px; color:#89480f" class="nav-item navbar-link" href="{% url 'view' %}">View Vessel Routes <span class="sr-only">(current)</span></a>                 
+                        <a style="padding:10px; color:#89480f" class="nav-item navbar-link"  href="{% url 'create' %}">Add New Route</a>             
+                        <a style="padding:10px; color:#89480f" class="nav-item navbar-link" href="{% url 'about' %}">About</a>             
+                        {% comment %} {% if user.isAdminUser %}                            
                             <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" id="Navbutton" href="{% url 'update' %}">Update Job</a>           
                         {% else %}                   
                             <a style="padding:10px; color:#66b3ff"  id="Navbutton" href="{% url 'admin:index' %}" class="nav-item nav-link disabled">Admin</a>                  
-                        {% endif %}
+                        {% endif %} {% endcomment %}
                         {% if user.is_staff %}
-                           <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" id="Navbutton" href="{% url 'admin:index' %}">Super Admin</a>
+                           <a style="padding:10px; color:#89480f" class="nav-item navbar-link" id="Navbutton" href="{% url 'admin:index' %}">Super Admin</a>
                         {% endif %}
                         <a class="nav-item navbar-link btn btn-danger logoutBtn" href="{% url 'account_logout' %}" role="button">Logout</a>
                     </div>
@@ -43,15 +43,15 @@
      
        </div>
   </head>  
-  <body class="bodyContent" style="background: url('/static/JobTracker/bck3.jpg') no-repeat center center fixed; background-size: cover;">    
+  <body class="bodyContent" style="background: url('/static/JobTracker/bck4.jpg') no-repeat center center fixed; background-size: cover;">    
         <div class="container-fluid" style="position: relative; padding-bottom:2.5rem">
           <div class="blurBackground">
             {% block pageContent %}
             {% endblock %}
            </div>
         </div>
-        <footer id="baseFooter" style="background-color: #03169D;">           
-                <p style="color:#66b3ff; padding: 4px; text-align: center">ECE 356 Team Project CopyRight@2020</p>
+        <footer id="baseFooter" style="background-color: #18890F;">           
+                <p style="color:#66b3ff; padding: 4px; text-align: center">ECE 499 Team Project CopyRight@2021</p>
         </footer>                   
   </body>
     
