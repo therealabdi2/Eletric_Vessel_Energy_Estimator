@@ -3,7 +3,7 @@ from django.http.response import JsonResponse # new
 from django.views.decorators.csrf import csrf_exempt # new
 from django.views.generic.base import TemplateView
 from django.http.response import JsonResponse, HttpResponse
-from JobTracker.models import Job
+from RouteTracker.models import Route
 import stripe 
 import os 
 
@@ -21,7 +21,7 @@ def create_checkout_session(request, jobId):
         domain_url = os.getenv('DOMAIN_URL')
         stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
         try:
-            printRequest = Job.objects.get(pk=jobId)            
+            printRequest = Route.objects.get(pk=jobId)            
             checkout_session = stripe.checkout.Session.create(
                 client_reference_id=request.user.userId if request.user.is_authenticated else None,
                 success_url=domain_url + 'payments/success?session_id={CHECKOUT_SESSION_ID}',
@@ -75,7 +75,7 @@ def stripe_webhook(request):
     # Handle the checkout.session.completed event
     if event['type'] == 'checkout.session.completed':
         jobId = event['data']['object']['metadata']['jobId']
-        printRequest =Job.objects.get(pk=jobId)        
+        printRequest =Route.objects.get(pk=jobId)        
         printRequest.paymentCompleted = True 
         printRequest.save()
 

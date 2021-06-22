@@ -30,13 +30,13 @@
  We can always discuss if anything in particular needs to change or be added 
 
  Django Framework 
- The way Django frames a web app is one folder/app (PrintSystem) forms the core of the
+ The way Django frames a web app is one folder/app (EVEESystem) forms the core of the
  settings for the webapp. Here you can find the html returned by the apis(views) 
  and the the settings of the project and the urls that users will be able to access 
  These two files are the ones we will mostly modify
 
 
- The folder JobTracker were created with python manage.py startapp appName
+ The folder RouteTracker were created with python manage.py startapp appName
  They represent different functionalities of the web app with their associated models(database data) and
  views(apis) and templates(html) 
 

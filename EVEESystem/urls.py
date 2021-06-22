@@ -1,4 +1,4 @@
-"""PrintSystem URL Configuration
+"""EVEESystem URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -22,9 +22,9 @@ from django.views.generic import RedirectView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    path('', RedirectView.as_view(url="/jobs/view")),
+    path('', RedirectView.as_view(url="/routes/view")),
     path('admin/', admin.site.urls),
-    path('jobs/', include('JobTracker.urls')),
+    path('routes/', include('RouteTracker.urls')),
     path('accounts/', include('allauth.urls')),   
     path('payments/', include('payments.urls')),
     re_path(r'^.*/$', RedirectView.as_view(permanent=False, url="/"))

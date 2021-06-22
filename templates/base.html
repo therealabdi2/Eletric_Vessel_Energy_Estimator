@@ -14,7 +14,7 @@
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'JobTracker/JobTracker.css' %}">
+    <link rel="stylesheet" href="{% static 'RouteTracker/RouteTracker.css' %}">
     <link rel="stylesheet" href="{% static 'payments.css' %}">
      <div class="container-fluid js-nav">                   
             <nav class="navbar navbar-expand-lg navbar-light mainNavbar">
@@ -26,7 +26,7 @@
                         <a style="padding:10px; color:#89480f" class="nav-item navbar-link"  href="{% url 'create' %}">Add New Route</a>             
                         <a style="padding:10px; color:#89480f" class="nav-item navbar-link" href="{% url 'about' %}">About</a>             
                         {% comment %} {% if user.isAdminUser %}                            
-                            <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" id="Navbutton" href="{% url 'update' %}">Update Job</a>           
+                            <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" id="Navbutton" href="{% url 'update' %}">Update Route</a>           
                         {% else %}                   
                             <a style="padding:10px; color:#66b3ff"  id="Navbutton" href="{% url 'admin:index' %}" class="nav-item nav-link disabled">Admin</a>                  
                         {% endif %} {% endcomment %}
@@ -43,7 +43,7 @@
      
        </div>
   </head>  
-  <body class="bodyContent" style="background: url('/static/JobTracker/bck4.jpg') no-repeat center center fixed; background-size: cover;">    
+  <body class="bodyContent" style="background: url('/static/RouteTracker/bck4.jpg') no-repeat center center fixed; background-size: cover;">    
         <div class="container-fluid" style="position: relative; padding-bottom:2.5rem">
           <div class="blurBackground">
             {% block pageContent %}

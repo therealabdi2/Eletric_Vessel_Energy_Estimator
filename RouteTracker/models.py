@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 
 from django.contrib.auth.models import User
-from PrintSystem.settings import DEFAULT_FROM_EMAIL
+from EVEESystem.settings import DEFAULT_FROM_EMAIL
 from django.core.mail import send_mail 
 from .validators import validateFileExtension
 
@@ -29,20 +29,20 @@ class Author(models.CustomUser):
 # To sync db -> python manage.py migrate --run-syncdb
 #Manually delete migrations folder, delete sqlite3 then run makemigrations then migrate 
 
-class Job(models.Model):
-    jobId            = models.AutoField(primary_key=True)
-    user             = models.ForeignKey(CustomUser, verbose_name="User", on_delete=models.CASCADE)
-    cost             = models.DecimalField(max_digits=6, decimal_places=2)
-    dateRequested    = models.DateTimeField(auto_now=False, auto_now_add=True)
-    jobCompleted     = models.BooleanField(default=False)
-    paymentCompleted = models.BooleanField(default=False)
-    projectTitle     = models.CharField(max_length=50, verbose_name="Project Title", default="")
+class Route(models.Model):
+    routeId            = models.AutoField(primary_key=True)
+    user               = models.ForeignKey(CustomUser, verbose_name="User", on_delete=models.CASCADE)
+    # cost             = models.DecimalField(max_digits=6, decimal_places=2)
+    dateAdded          = models.DateTimeField(auto_now=False, auto_now_add=True)
+    # jobCompleted     = models.BooleanField(default=False)
+    # paymentCompleted = models.BooleanField(default=False)
+    routeTitle     = models.CharField(max_length=50, verbose_name="Project Title", default="")
     fileName         = models.FileField(upload_to='uploads/%Y/%m/%d/', max_length=100, verbose_name="STL File", validators=[validateFileExtension])
-    jobDetails       = models.TextField(verbose_name="Job Details", default="", blank=True)
+    # jobDetails       = models.TextField(verbose_name="Route Details", default="", blank=True)
     
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
         if self.pk is not None:
-            orig = Job.objects.get(pk=self.pk)
+            orig = Route.objects.get(pk=self.pk)
             if orig.cost!= self.cost:
                 user = list(CustomUser.objects.filter(username=orig.user))[0]
                 send_mail(
@@ -52,13 +52,13 @@ class Job(models.Model):
                     recipient_list=[user.email],
                     fail_silently=False,
                 )
-        super(Job, self).save()           
+        super(Route, self).save()           
     
     class Meta:
         """ Allows to define metadata for the database """
-        ordering = ["dateRequested"]
-        db_table = 'Job'
-        verbose_name = "Job List"
+        ordering = ["dateAdded"]
+        db_table = 'Route'
+        verbose_name = "Route List"
     
     def __str__(self):
         """ Lets us name instances of each record(row) """

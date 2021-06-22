@@ -1,10 +1,10 @@
 from django.test import TestCase
 from django.core import mail 
-from .models import Job, CustomUser 
+from .models import Route, CustomUser 
 # Create your tests here.
 
 class JobTestCase(TestCase):
-    """ This class contains unit test for the Job database model """
+    """ This class contains unit test for the Route database model """
     @classmethod 
     def setUpTestData(cls):
         # Sets up data for the whole test case 
@@ -33,7 +33,7 @@ class JobTestCase(TestCase):
         filenam="test.stl"
         jobdet = "Blue color"
         cst = 5.00
-        job = Job.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)
+        job = Route.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)
         self.assertNotEqual(job, None)
    
     def test_job_title(self):
@@ -41,7 +41,7 @@ class JobTestCase(TestCase):
         filenam="test.stl"
         jobdet = "Blue color"
         cst = 5.00
-        job = Job.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
+        job = Route.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
         self.assertEqual(job.projectTitle, projtitle)
    
     def test_job_file(self):
@@ -49,7 +49,7 @@ class JobTestCase(TestCase):
         filenam="test.stl"
         jobdet = "Blue color"
         cst = 5.00
-        job = Job.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
+        job = Route.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
         self.assertEqual(job.fileName, filenam)
  
     def test_job_details(self):
@@ -57,7 +57,7 @@ class JobTestCase(TestCase):
         filenam="test.stl"
         jobdet = "Blue color"
         cst = 5.00
-        job = Job.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
+        job = Route.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
         self.assertEqual(job.jobDetails, jobdet)
        
     def test_job_cost(self):
@@ -65,7 +65,7 @@ class JobTestCase(TestCase):
         filenam="test.stl"
         jobdet = "Blue color"
         cst = 5.00
-        job = Job.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
+        job = Route.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
         self.assertEqual(job.cost, cst) 
         
     def test_job_user(self):
@@ -73,7 +73,7 @@ class JobTestCase(TestCase):
         filenam="test.stl"
         jobdet = "Blue color"
         cst = 5.00
-        job = Job.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
+        job = Route.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)       
         self.assertEqual(job.user, self.usr)
         
     def test_update_price(self):
@@ -81,11 +81,11 @@ class JobTestCase(TestCase):
         filenam="test.stl"
         jobdet = "Blue color"
         cst = 5.00
-        job = Job.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)  
+        job = Route.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)  
         cst = 20.00
         job.cost = cst  
         job.save() 
-        job1 = Job.objects.get(pk=job.jobId)
+        job1 = Route.objects.get(pk=job.jobId)
         self.assertEqual(job1.cost, cst) 
         
     def test_update_paycomplete(self):
@@ -93,10 +93,10 @@ class JobTestCase(TestCase):
         filenam="test.stl"
         jobdet = "Blue color"
         cst = 5.00
-        job = Job.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)  
+        job = Route.objects.create(projectTitle=projtitle, fileName=filenam, jobDetails=jobdet, cost=cst, user=self.usr)  
         job.paymentCompleted = True 
         job.save() 
-        job1 = Job.objects.get(pk=job.jobId)
+        job1 = Route.objects.get(pk=job.jobId)
         self.assertEqual(job1.paymentCompleted, True) 
     
 class CustomUserTestCase(TestCase):

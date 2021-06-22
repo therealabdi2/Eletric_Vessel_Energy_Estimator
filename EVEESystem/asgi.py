@@ -1,5 +1,5 @@
 """
-ASGI config for PrintSystem project.
+ASGI config for EVEESystem project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PrintSystem.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'EVEESystem.settings')
 
 application = get_asgi_application()
