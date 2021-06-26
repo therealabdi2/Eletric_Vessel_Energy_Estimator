@@ -71,12 +71,11 @@ AUTHENTICATION_BACKENDS = (
     # allauth specific authentication methods such as login by email 
     'allauth.account.auth_backends.AuthenticationBackend'    
 )
-ACCOUNT_FORMS = {'signup': 'RouteTracker.forms.CustomSignupForm'}
 AUTH_USER_MODEL = 'RouteTracker.CustomUser'
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7 
+#ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7 
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 LOGIN_REDIRECT_URL = "/"
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

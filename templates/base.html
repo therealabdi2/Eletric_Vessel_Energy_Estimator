@@ -22,14 +22,8 @@
                  
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <div class="navbar-nav">               
-                        <a style="padding:10px; color:#89480f" class="nav-item navbar-link" href="{% url 'view' %}">View Vessel Routes <span class="sr-only">(current)</span></a>                 
-                        <a style="padding:10px; color:#89480f" class="nav-item navbar-link"  href="{% url 'create' %}">Add New Route</a>             
-                        <a style="padding:10px; color:#89480f" class="nav-item navbar-link" href="{% url 'about' %}">About</a>             
-                        {% comment %} {% if user.isAdminUser %}                            
-                            <a style="padding:10px; color:#66b3ff" class="nav-item navbar-link" id="Navbutton" href="{% url 'update' %}">Update Route</a>           
-                        {% else %}                   
-                            <a style="padding:10px; color:#66b3ff"  id="Navbutton" href="{% url 'admin:index' %}" class="nav-item nav-link disabled">Admin</a>                  
-                        {% endif %} {% endcomment %}
+                        <a style="padding:10px; color:#89480f" class="nav-item navbar-link" href="{% url 'view' %}">View Vessel Routes <span class="sr-only">(current)</span></a>                                
+                        <a style="padding:10px; color:#89480f" class="nav-item navbar-link" href="{% url 'about' %}">About</a>         
                         {% if user.is_staff %}
                            <a style="padding:10px; color:#89480f" class="nav-item navbar-link" id="Navbutton" href="{% url 'admin:index' %}">Super Admin</a>
                         {% endif %}
@@ -45,9 +39,15 @@
   </head>  
   <body class="bodyContent" style="background: url('/static/RouteTracker/bck4.jpg') no-repeat center center fixed; background-size: cover;">    
         <div class="container-fluid" style="position: relative; padding-bottom:2.5rem">
-          <div class="blurBackground">
-            {% block pageContent %}
-            {% endblock %}
+          <div class="row blurBackground">
+             <div class="col-md-5">
+                {% block pageInput %}
+                {% endblock %}
+              </div> 
+              <div class="col-md-7">
+                {% block pageOutput %}
+                {% endblock %}
+              </div> 
            </div>
         </div>
         <footer id="baseFooter" style="background-color: #18890F;">           

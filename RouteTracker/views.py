@@ -7,7 +7,9 @@ from django.views import View
 from django.views.generic import ListView, CreateView
 
 from .models import Route, CustomUser
-from .forms import RouteForm, UpdateJobForm
+from .forms import RouteForm
+from django.http import JsonResponse
+
 """
 from .models import Author
 """
@@ -33,49 +35,51 @@ class RouteListView(ListView):
 class RouteCreateView(CreateView):
     form_class = RouteForm
     template_name = "createRoute.html"
-    context_object_name = "routess"
+    context_object_name = "routes"
 
 
-def add_route(request):
-    projtitle = request.POST["projectTitle"]
-    filnam = request.POST["fileName"]
-    jobdet = request.POST["jobDetails"]
-    created_obj = Route.objects.create(projectTitle=projtitle, fileName=filnam, jobDetails=jobdet, cost=0.00, user=request.user)
- 
-    return(redirect('/routes/view'))
 
-def update_route(request):
-    """ Meant to update a job with price and payment details """
+
+def view_routes(request):
+    """ Meant to gather route details and display SOC levels """
+    user = request.user
     if request.method == "POST":
-        form = UpdateJobForm(request.POST)
+        form = RouteForm(request.POST)
         if form.is_valid():
-            jobId = form.cleaned_data['jobId']
-            price = form.cleaned_data['price']
-            paymentCompleted = form.cleaned_data['paymentCompleted']
-            jobCompleted = form.cleaned_data['jobCompleted']
-            try:
-                rec = Route.objects.get(pk=jobId)   
-                if rec:  
-                    if price:       
-                        rec.cost = float(price)
-                    rec.paymentCompleted = paymentCompleted
-                    rec.jobCompleted = jobCompleted 
-                    rec.save() 
-                return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
-            except:
-                context = {
-                    'form': form
-                }
-                return render(request, 'updateRoute.html', context)
-           
-      
+           route = form.save(commit=False) # get the new route without saving to database
+           route.user = user # Add the current user to the record 
+           route.save() # Save route information to the database
+           # Calculate soc here 
+           return JsonResponse({'data_SOC':[1,2]})
+
     else:
-        form = UpdateJobForm() 
+        form = RouteForm() 
         context = {
             'form': form
         }
-        return render(request, 'updateRoute.html', context)
+        return render(request, 'viewRoutes.html', context)
 
 
    
-            
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

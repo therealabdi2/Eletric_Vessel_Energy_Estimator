@@ -1,65 +1,23 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block pageContent %}     
-    <div class="container mainheader">
-        <div class="row" style="padding-bottom: 50px;">
-           <h3 id="badge" style="color:white;">List of daily <span class="badge badge-pill badge-dark">Vessel Routes</span></h3>
-        </div>      
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block pageInput %}     
+    <div class="container ">
+        <div class="row mainheader" style="padding-bottom: 50px;">
+           <h3 id="badge" style="color:white;"> <span class="badge badge-pill badge-dark">Vessel Route Input</span></h3>
+        </div>  
+         <div class="row bg-info" style="padding-bottom: 12px; padding-top: 12px;">
+            <form action="{% url 'view' %}" method="post">            
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>   
+           
+        </div>            
     </div>
     
-    <div class="container" style="border-radius: 24px 24px 0px 0px">
-        <div class="row bg-info" style="padding-bottom: 12px; padding-top: 12px;">
-            <div class="col-md-1">
-                <b>Route</b>
-            </div>
-            <div class="col-md-2">
-                <b>Departure</b>
-            </div>
-            <div class="col-md-1">
-                <b>Arrival</b>
-            </div>
-            <div class="col-md-2">
-                <b>Total Duration</b>
-            </div>
-            <div class="col-md-2">
-                <b>Transit Time</b>
-            </div>
-            <div class="col-md-2">
-                <b>Maneuvering Time</b>
-            </div>  
-             <div class="col-md-2">
-                <b>Docking Time</b>
-            </div>           
-        </div>
-        {% comment %} {% for job in jobs %}
-            <div class="row bg-info" style="padding-top: 24px; padding-bottom: 24px; border-top: 2px solid rgb(35, 215, 228);">
-                <div class="col-md-1">
-                    {{job.jobId}}
-                </div>
-                 <div class="col-md-2">
-                    {{job.projectTitle}}
-                </div>
-                <div class="col-md-4" style="display: block; width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                    {{job.fileName}}
-                </div>
-                <div class="col-md-1">
-                    {{job.cost}}
-                </div>
-                <div class="col-md-1">
-                    {{job.paymentCompleted}}
-                </div>
-                <div class="col-md-1">
-                    {{job.jobCompleted}}
-                </div> 
-                <div class="col-md-1">                    
-                    {% if job.paymentCompleted  == False and job.cost > 0  %}      
-                        <button type="button" class="bnt btn-warning"  id="submitPaymentBtn" value={{job.jobId}}>Pay</button>
-                    {% else %}       
-                        <button type="button" class="bnt btn-warning" value="-1" disabled id="submitPaymentBtn">Pay</button>
-                    {% endif %}
-                </div> 
-            </div>
-        {% endfor %} {% endcomment %}
-    </div>
+   
 {% endblock %}
