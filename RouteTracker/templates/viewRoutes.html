@@ -9,11 +9,21 @@
         <div class="row mainheader" style="padding-bottom: 50px;">
            <h3 id="badge" style="color:white;"> <span class="badge badge-pill badge-dark">Vessel Route Input</span></h3>
         </div>  
-         <div class="row bg-info" style="padding-bottom: 12px; padding-top: 12px;">
-            <form action="{% url 'view' %}" method="post">            
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="btn btn-primary">Submit</button>
+         <div class="bg-info ">
+             <form action="{% url 'view' %}" method="post">                  
+               {% csrf_token %} 
+               {% for field in form  %}
+              
+                   <div class="row pb-1 mx-auto">
+                        <div class="col-sm-6 ">
+                            <b>{{ field.label_tag }}</b>   
+                        </div>     
+                         <div class="col-sm-6 ">
+                             {{ field }} 
+                        </div>     
+                   </div>           
+               {% endfor %}              
+             <button type="submit" class="btn btn-primary">Submit</button>
             </form>   
            
         </div>            
@@ -21,3 +31,171 @@
     
    
 {% endblock %}
+{% block pageOutput %}     
+    <div class="container ">
+        <div class="row mainheader" style="padding-bottom: 50px;">
+           <h3 id="badge" style="color:white;"> <span class="badge badge-pill badge-dark">Vessel Route Output</span></h3>
+        </div>  
+         <div class="bg-info ">
+             <form class="form-inline" method="post">                  
+               {% csrf_token %} 
+                <label for="rname">Route Name:</label><br>
+                <input style="margin-right:1rem;" type="text" id="rname" name="rname"><br>             
+              <button type="submit" class="btn btn-primary js-submit">Submit</button>
+            </form>  
+            <div id="chartContainer"  style="display:none;">
+                <canvas id="routeChart"></canvas>
+            </div>           
+        </div>            
+    </div>    
+   
+{% endblock %}
+
+
+{% block javascript %}   
+    <script> 
+        var routeChart = undefined;
+        $(document).ready(function () {
+            // catch the form's submit event
+            $('.js-submit').on('click', function (e) {
+                e.preventDefault();
+                // create an AJAX call
+
+                 var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+                function csrfSafeMethod(method) {
+                    // these HTTP methods do not require CSRF protection
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                }                
+
+                $.ajaxSetup({
+                    beforeSend: function (xhr, settings) {
+                        // if not safe, set csrftoken
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                    }
+                });
+                var rname = $('#rname').val();
+                // Return if form field is empty 
+                if (rname === "") {
+                    return;
+                } 
+                var newClickHandler = function(e, legendItem, legend) {
+                        const index = legendItem.datasetIndex;
+                        const ci = legend.chart;
+                        if (ci.isDatasetVisible(index)) {
+                            ci.hide(index);
+                            legendItem.hidden = true;
+                        } else {
+                            ci.show(index);
+                            legendItem.hidden = false;
+                        }
+                        legendItem.fillStyle =  '#32a852';
+                }
+ 
+
+                // Setting up chart stuff  and ensure that previous one is destroyed first               
+                if (routeChart !== undefined){
+                    routeChart.destroy(); 
+                }              
+                var ctx = $('#routeChart')[0].getContext("2d"); 
+                ctx.height = 1000; 
+                var bgColors = ['rgb(165,42,42)',  'rgb(123,104,238)','rgb(255,140,0)', 'rgb(107,142,35)', 
+                       'rgb(102,205,170)', 'rgb(0,255,255)', 'rgb(95,158,160)','rgb(34,139,34)', 'rgb(173,216,230)', 'rgb(0,0,205)', 
+                      'rgb(240,230,140)','rgb(216,191,216)','rgb(255,20,147)',  'rgb(255,127,80)','rgb(139,69,19)', 'rgb(112,128,144)'];
+
+                $.ajax({
+                    data: { 'routeName': rname }, // get the form data
+                    url: "{% url 'getOutputData' %}",
+                    type: 'POST',
+                    // on success
+                    success: function (response) {
+                        console.log("response", response)
+                        if (response.data === undefined){
+                            return; 
+                        }
+
+                        console.log("success in getting data")
+                        $('#rname').val("");
+                        var cleanLabels = [];
+                        let modes = ['Departure', 'Transit', 'Arrival', 'Stay'];
+                        var usedColors = [];
+                        var i = 0;
+                        response.labels.forEach(function(item, index){
+                            var time = item.split('T')[1];
+                            var an = time.substr(0, time.length-1);
+                            cleanLabels.push(an + ' ' + modes[index%modes.length]);                         
+                        });
+                        let k = 0;
+                        let data2 = new Array(cleanLabels.length).fill(100);
+                        
+                        for (let i = 0; i < cleanLabels.length; i++){                             
+                             if (i % 4 === 0 && i > 0){
+                                 k +=1;                                
+                             }
+                             usedColors.push(bgColors[k]);
+                        }
+                        var cleanData = [];
+                        console.log("data2", data2);
+                        response.data.forEach(function(item, index){
+                            cleanData.push(item.toFixed(2));
+                        });
+                        console.log("usedcolors", usedColors); 
+                        routeChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: cleanLabels,
+                                datasets: [{
+                                    label: 'SOC %',
+                                    backgroundColor: usedColors,
+                                    data: cleanData,                                   
+                                 },
+                                   {
+                                    type: 'bar',
+                                    label: 'Trips',
+                                    data: cleanData,
+                                    backgroundColor: usedColors,
+                                }
+                                  ],
+                                       
+                            },
+                            options: {
+                                plugins:{
+                                        legend: {
+                                        position: 'top',
+                                        display: true,
+                                       
+                                        
+                                    },
+                                     title: {
+                                            display: true,
+                                            text: 'Vessel Enery Profile'
+                                        },
+                                },
+                                responsive: true,                               
+                               
+                                scales: {
+                                    y: { // defining min and max so hiding the dataset does not change scale range
+                                        min: 0,
+                                        max: 100
+                                    }  
+                                }     
+                            },
+                                                
+                        });
+                        $('#chartContainer').css("display", "");
+
+                    },
+                    // on error
+                    error: function (response) {
+                        // alert the error if any error occured
+                        console.log(response.errors)
+                    }
+                });
+
+                return false;
+            });
+        })
+    </script>
+    {% endblock javascript %}

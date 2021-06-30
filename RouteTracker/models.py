@@ -32,12 +32,12 @@ class Route(models.Model):
     routeTitle         = models.CharField(max_length=50, verbose_name="Route Title", default="")
     batteryRating      = models.IntegerField(verbose_name="Battery Rating (VDC)") 
     chargingTime       = models.IntegerField(verbose_name="Charging Time (m)") # In minutes  
-    fileName           = models.FileField(upload_to='uploads/%Y/%m/%d/', max_length=100, verbose_name="Vessel Timetable File", validators=[validateFileExtension])  
+    fileName           = models.FileField(upload_to='uploads/%Y/%m/%d/', max_length=100, verbose_name="Vessel Timetable File", validators=[validateFileExtension], blank=True, null=True)  
     departure          = ArrayField(models.DateTimeField(), verbose_name="Departure")
     transit            = ArrayField(models.DateTimeField(), verbose_name="Transit")
     arrival            = ArrayField(models.DateTimeField(), verbose_name="Arrival")
     stay               = ArrayField(models.DateTimeField(), verbose_name="Stay")
-    calcSOC            = ArrayField(models.IntegerField())
+    calcSOC            = ArrayField(models.IntegerField(), null=True, blank=True)
     minDeparturePow    = models.IntegerField(verbose_name="Min Departure Power Req") # Power requirements 
     maxDeparturePow    = models.IntegerField(verbose_name="Max Departure Power Req") 
     transitPow         = models.IntegerField(verbose_name="Transit Power Req") 

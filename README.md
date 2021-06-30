@@ -54,3 +54,7 @@
  Feel free to get comfortable and play around with the code 
  
 
+ ***** 
+ Installing Postgres from link https://www.postgresql.org/download/ 
+ - Set password as admin 
+

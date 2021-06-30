@@ -98,6 +98,22 @@
     padding: 20% 0;
 }
 
+.bg-info{
+    padding: 2rem;
+}
+
+.input_form{
+    margin:0;
+}
+
+#chartContainer{
+    background-color: rgb(252, 245, 245);
+    padding:1rem;
+    margin-top:2rem;
+    min-height: 30rem;   
+
+}
+
 @media(min-width:850px)
 {    
     .aboutCard {

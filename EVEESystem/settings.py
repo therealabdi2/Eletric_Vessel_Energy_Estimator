@@ -73,7 +73,7 @@ AUTHENTICATION_BACKENDS = (
 )
 AUTH_USER_MODEL = 'RouteTracker.CustomUser'
 
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_EMAIL_REQUIRED = True
 #ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7 
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
@@ -117,7 +117,21 @@ WSGI_APPLICATION = 'EVEESystem.wsgi.application'
 db_from_env = dj_database_url.config(conn_max_age=600)
 
 DATABASES = {
-    'default': db_from_env
+    'default': {
+
+        'ENGINE': 'django.db.backends.postgresql',
+
+        'NAME': 'postgres',
+
+        'USER': 'postgres',
+
+        'PASSWORD': 'admin',
+
+        'HOST': 'localhost',
+
+        'PORT': '5432',
+
+    }
 }
 
 # Password validation
