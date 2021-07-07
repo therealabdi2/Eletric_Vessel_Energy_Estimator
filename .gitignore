@@ -1,6 +1,5 @@
 .env
 .vscode
 djangodev
-RouteTracker/__pycache__
-EVEESystem/__pycache__
-payments/__pycache__
+__pycache__/
+virtual-environment/
