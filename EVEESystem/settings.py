@@ -52,16 +52,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',   
+    'django.contrib.sites',
     
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     
-    'crispy_forms',    
+    'crispy_forms',
     'RouteTracker',
-    'bootstrap4',
     'payments'
+    'bootstrap4',
 ]
 SITE_ID = 1
 CRISPY_TEMPLATE_PACK = "bootstrap4"
@@ -121,15 +121,15 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': 'postgres',
+        'NAME': os.getenv('DBNAME'),
 
-        'USER': 'postgres',
+        'USER': os.getenv('DBUSER'),
 
-        'PASSWORD': 'admin',
+        'PASSWORD': os.getenv('DBPASS'),
 
-        'HOST': 'localhost',
+        'HOST': os.getenv('DBHOST'),
 
-        'PORT': '5432',
+        'PORT': os.getenv('DBPORT'),
 
     }
 }
