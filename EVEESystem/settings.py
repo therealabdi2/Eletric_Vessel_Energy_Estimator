@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     
     'crispy_forms',
     'RouteTracker',
-    'payments'
+    'payments',
     'bootstrap4',
 ]
 SITE_ID = 1

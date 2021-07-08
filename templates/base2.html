@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" id="root">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.min.js"></script>
+    <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'RouteTracker/RouteTracker.css' %}" />
+    <link rel="stylesheet" href="{% static 'payments.css' %}" />
+</head>
+
+<body class="bodyContent" style="
+      background: url('/static/RouteTracker/bck4.jpg') no-repeat center center
+        fixed;
+      background-size: cover;
+    ">
+    <div class="container-fluid js-nav">
+        <nav class="navbar navbar-expand-lg navbar-light mainNavbar">
+            <a class="navbar-brand" href="{% url 'about' %}"
+                style="color: #0f2189; padding-right: 10px; font-weight: bold">EVEE System</a>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <div class="navbar-nav">
+                    <a style="padding: 10px; color: #89480f" class="nav-item navbar-link" href="{% url 'view' %}">View
+                        Vessel Routes <span class="sr-only">(current)</span></a>
+                    <a style="padding: 10px; color: #89480f" class="nav-item navbar-link"
+                        href="{% url 'about' %}">About</a>
+                    {% if user.is_staff %}
+                    <a style="padding: 10px; color: #89480f" class="nav-item navbar-link" id="Navbutton"
+                        href="{% url 'admin:index' %}">Super Admin</a>
+                    {% endif %}
+                    <a class="nav-item navbar-link btn btn-danger logoutBtn" href="{% url 'account_logout' %}"
+                        role="button">Logout</a>
+                </div>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </div>
+    <div class="container-fluid" style="position: relative; padding-bottom: 2.5rem">
+        <div class="blurBackground">
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+    <footer id="baseFooter" style="background-color: #18890f">
+        <p style="color: #66b3ff; padding: 4px; text-align: center">
+            ECE 499 Team Project CopyRight@2021
+        </p>
+    </footer>
+    {% block javascript %} {% endblock %}
+</body>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+<script src="{% static 'payments.js' %}"></script>
+
+</html>

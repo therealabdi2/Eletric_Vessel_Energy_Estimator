@@ -1,36 +1,36 @@
-{% extends "base.html" %}
+{% extends "base2.html" %}
 {% load static %}
+{% load bootstrap4%}
 {% load crispy_forms_tags %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-{% block pageInput %}     
+{% block content %}
     <div class="container ">
         <div class="row mainheader" style="padding-bottom: 50px;">
            <h3 id="badge" style="color:white;"> <span class="badge badge-pill badge-dark">Vessel Route Input</span></h3>
         </div>  
          <div class="bg-info ">
-             <form action="{% url 'view' %}" method="post">                  
-               {% csrf_token %} 
+             <form action="{% url 'view' %}" method="post">
+               {% csrf_token %}
+               {%comment%}
                {% for field in form  %}
-              
-                   <div class="row pb-1 mx-auto">
+               {% endfor %}
+               {%endcomment%}
+               {{form|crispy}}
+             {% comment %}
+               <div class="row pb-1 mx-auto">
                         <div class="col-sm-6 ">
                             <b>{{ field.label_tag }}</b>   
                         </div>     
                          <div class="col-sm-6 ">
                              {{ field }} 
                         </div>     
-                   </div>           
-               {% endfor %}              
+                   </div>
+                {% endcomment %}
              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>   
-           
-        </div>            
+            </form>
+        </div>
     </div>
-    
-   
 {% endblock %}
+{%comment%}
 {% block pageOutput %}     
     <div class="container ">
         <div class="row mainheader" style="padding-bottom: 50px;">
@@ -50,7 +50,7 @@
     </div>    
    
 {% endblock %}
-
+{%endcomment%}
 
 {% block javascript %}   
     <script> 
