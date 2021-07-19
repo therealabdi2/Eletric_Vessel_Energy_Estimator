@@ -2,200 +2,286 @@
 {% load static %}
 {% load bootstrap4%}
 {% load crispy_forms_tags %}
+{% block head %}
+<link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
 {% block content %}
-    <div class="container ">
-        <div class="row mainheader" style="padding-bottom: 50px;">
-           <h3 id="badge" style="color:white;"> <span class="badge badge-pill badge-dark">Vessel Route Input</span></h3>
-        </div>  
-         <div class="bg-info ">
-             <form action="{% url 'view' %}" method="post">
-               {% csrf_token %}
-               {%comment%}
-               {% for field in form  %}
-               {% endfor %}
-               {%endcomment%}
-               {{form|crispy}}
-             {% comment %}
-               <div class="row pb-1 mx-auto">
-                        <div class="col-sm-6 ">
-                            <b>{{ field.label_tag }}</b>   
-                        </div>     
-                         <div class="col-sm-6 ">
-                             {{ field }} 
-                        </div>     
-                   </div>
-                {% endcomment %}
-             <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
+<div class="container ">
+    <div class="row mainheader" style="padding-bottom: 50px;">
+        <h3 id="badge" style="color:white;"> <span class="badge badge-pill badge-dark">Vessel Route Input</span></h3>
     </div>
+    <div class="bg-info ">
+        <form action="{% url 'view' %}" method="post">
+            {% csrf_token %}
+            {%comment%}
+            {% for field in form %}
+            {% endfor %}
+            {%endcomment%}
+            {% bootstrap_field form.initialSOC layout='horizontal' %}
+            {% bootstrap_field form.batteryCapacity layout='horizontal' %}
+            {% bootstrap_field form.routeTitle layout='horizontal' %}
+            {% bootstrap_field form.batteryRating layout='horizontal' %}
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4 text-center">Full Electric</div>
+                <div class="col-sm-4 text-center">Diesel Electric</div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-sm-4">{{ form.propulsionMethod.label }}</div>
+                {% for radio in form.propulsionMethod %}
+                <div class="col-sm-4 text-center">{{radio.tag}}</div>
+                {% endfor %}
+            </div>
+            {% comment %}
+            {% bootstrap_field form.propulsionMethod layout='horizontal' %}
+            {% endcomment %}
+            <p>Power Requirements (kw)</p>
+            <div class="row mb-1">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4 text-center">Min</div>
+                <div class="col-sm-4 text-center">Max</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Departure</div>
+                <div class="col-sm-4">{% bootstrap_field form.minDeparturePow show_label=False %}</div>
+                <div class="col-sm-4">{% bootstrap_field form.maxDeparturePow show_label=False %}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Transit</div>
+                <div class="col-sm-4">{% bootstrap_field form.minTransitPow show_label=False %}</div>
+                <div class="col-sm-4">{% bootstrap_field form.maxTransitPow show_label=False %}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Arrival</div>
+                <div class="col-sm-4">{% bootstrap_field form.minArrivalPow show_label=False %}</div>
+                <div class="col-sm-4">{% bootstrap_field form.maxArrivalPow show_label=False %}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Stay</div>
+                <div class="col-sm-4">{% bootstrap_field form.minStayingPow show_label=False %}</div>
+                <div class="col-sm-4">{% bootstrap_field form.maxStayingPow show_label=False %}</div>
+            </div>
+            <p>Times</p>
+            <div class="row">
+                <div class="col-sm-3">Departure Time</div>
+                <div class="col-sm-3">Transit Time</div>
+                <div class="col-sm-3">Arrival time</div>
+                <div class="col-sm-3">Charging Time</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">{% bootstrap_field form.departure show_label=False %}</div>
+                <div class="col-sm-3">{% bootstrap_field form.transit show_label=False %}</div>
+                <div class="col-sm-3">{% bootstrap_field form.arrival show_label=False %}</div>
+                <div class="col-sm-3">{% bootstrap_field form.stay show_label=False %}</div>
+            </div>
+            <div class="d-flex justify-content-end" id="add-button-block">
+                <div><button type="button" class="btn btn-dark" id="add-trip-timings"><i class="fas fa-plus-circle fa-2x"></i></button></div>
+            </div>
+            {% buttons submit='SUBMIT' %}{% endbuttons %}
+            {% comment %}
+            <div class="row pb-1 mx-auto">
+                <div class="col-sm-6 ">
+                    <b>{{ field.label_tag }}</b>
+                </div>
+                <div class="col-sm-6 ">
+                    {{ field }}
+                </div>
+            </div>
+            {% endcomment %}
+        </form>
+    </div>
+</div>
 {% endblock %}
 {%comment%}
-{% block pageOutput %}     
-    <div class="container ">
-        <div class="row mainheader" style="padding-bottom: 50px;">
-           <h3 id="badge" style="color:white;"> <span class="badge badge-pill badge-dark">Vessel Route Output</span></h3>
-        </div>  
-         <div class="bg-info ">
-             <form class="form-inline" method="post">                  
-               {% csrf_token %} 
-                <label for="rname">Route Name:</label><br>
-                <input style="margin-right:1rem;" type="text" id="rname" name="rname"><br>             
-              <button type="submit" class="btn btn-primary js-submit">Submit</button>
-            </form>  
-            <div id="chartContainer"  style="display:none;">
-                <canvas id="routeChart"></canvas>
-            </div>           
-        </div>            
-    </div>    
-   
+{% block pageOutput %}
+<div class="container ">
+    <div class="row mainheader" style="padding-bottom: 50px;">
+        <h3 id="badge" style="color:white;"> <span class="badge badge-pill badge-dark">Vessel Route Output</span></h3>
+    </div>
+    <div class="bg-info ">
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+            <label for="rname">Route Name:</label><br>
+            <input style="margin-right:1rem;" type="text" id="rname" name="rname"><br>
+            <button type="submit" class="btn btn-primary js-submit">Submit</button>
+        </form>
+        <div id="chartContainer" style="display:none;">
+            <canvas id="routeChart"></canvas>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 {%endcomment%}
 
-{% block javascript %}   
-    <script> 
-        var routeChart = undefined;
-        $(document).ready(function () {
-            // catch the form's submit event
-            $('.js-submit').on('click', function (e) {
-                e.preventDefault();
-                // create an AJAX call
+{% block javascript %}
+<script>
+    var routeChart = undefined;
+    $(document).ready(function () {
+        // catch the form's submit event
+        $('.js-submit').on('click', function (e) {
+            e.preventDefault();
+            // create an AJAX call
 
-                 var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+            var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
-                function csrfSafeMethod(method) {
-                    // these HTTP methods do not require CSRF protection
-                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-                }                
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
 
-                $.ajaxSetup({
-                    beforeSend: function (xhr, settings) {
-                        // if not safe, set csrftoken
-                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                        }
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    // if not safe, set csrftoken
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
                     }
-                });
-                var rname = $('#rname').val();
-                // Return if form field is empty 
-                if (rname === "") {
-                    return;
-                } 
-                var newClickHandler = function(e, legendItem, legend) {
-                        const index = legendItem.datasetIndex;
-                        const ci = legend.chart;
-                        if (ci.isDatasetVisible(index)) {
-                            ci.hide(index);
-                            legendItem.hidden = true;
-                        } else {
-                            ci.show(index);
-                            legendItem.hidden = false;
-                        }
-                        legendItem.fillStyle =  '#32a852';
                 }
- 
-
-                // Setting up chart stuff  and ensure that previous one is destroyed first               
-                if (routeChart !== undefined){
-                    routeChart.destroy(); 
-                }              
-                var ctx = $('#routeChart')[0].getContext("2d"); 
-                ctx.height = 1000; 
-                var bgColors = ['rgb(165,42,42)',  'rgb(123,104,238)','rgb(255,140,0)', 'rgb(107,142,35)', 
-                       'rgb(102,205,170)', 'rgb(0,255,255)', 'rgb(95,158,160)','rgb(34,139,34)', 'rgb(173,216,230)', 'rgb(0,0,205)', 
-                      'rgb(240,230,140)','rgb(216,191,216)','rgb(255,20,147)',  'rgb(255,127,80)','rgb(139,69,19)', 'rgb(112,128,144)'];
-
-                $.ajax({
-                    data: { 'routeName': rname }, // get the form data
-                    url: "{% url 'getOutputData' %}",
-                    type: 'POST',
-                    // on success
-                    success: function (response) {
-                        console.log("response", response)
-                        if (response.data === undefined){
-                            return; 
-                        }
-
-                        console.log("success in getting data")
-                        $('#rname').val("");
-                        var cleanLabels = [];
-                        let modes = ['Departure', 'Transit', 'Arrival', 'Stay'];
-                        var usedColors = [];
-                        var i = 0;
-                        response.labels.forEach(function(item, index){
-                            var time = item.split('T')[1];
-                            var an = time.substr(0, time.length-1);
-                            cleanLabels.push(an + ' ' + modes[index%modes.length]);                         
-                        });
-                        let k = 0;
-                        let data2 = new Array(cleanLabels.length).fill(100);
-                        
-                        for (let i = 0; i < cleanLabels.length; i++){                             
-                             if (i % 4 === 0 && i > 0){
-                                 k +=1;                                
-                             }
-                             usedColors.push(bgColors[k]);
-                        }
-                        var cleanData = [];
-                        console.log("data2", data2);
-                        response.data.forEach(function(item, index){
-                            cleanData.push(item.toFixed(2));
-                        });
-                        console.log("usedcolors", usedColors); 
-                        routeChart = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: cleanLabels,
-                                datasets: [{
-                                    label: 'SOC %',
-                                    backgroundColor: usedColors,
-                                    data: cleanData,                                   
-                                 },
-                                   {
-                                    type: 'bar',
-                                    label: 'Trips',
-                                    data: cleanData,
-                                    backgroundColor: usedColors,
-                                }
-                                  ],
-                                       
-                            },
-                            options: {
-                                plugins:{
-                                        legend: {
-                                        position: 'top',
-                                        display: true,
-                                       
-                                        
-                                    },
-                                     title: {
-                                            display: true,
-                                            text: 'Vessel Enery Profile'
-                                        },
-                                },
-                                responsive: true,                               
-                               
-                                scales: {
-                                    y: { // defining min and max so hiding the dataset does not change scale range
-                                        min: 0,
-                                        max: 100
-                                    }  
-                                }     
-                            },
-                                                
-                        });
-                        $('#chartContainer').css("display", "");
-
-                    },
-                    // on error
-                    error: function (response) {
-                        // alert the error if any error occured
-                        console.log(response.errors)
-                    }
-                });
-
-                return false;
             });
-        })
-    </script>
-    {% endblock javascript %}
+            var rname = $('#rname').val();
+            // Return if form field is empty 
+            if (rname === "") {
+                return;
+            }
+            var newClickHandler = function (e, legendItem, legend) {
+                const index = legendItem.datasetIndex;
+                const ci = legend.chart;
+                if (ci.isDatasetVisible(index)) {
+                    ci.hide(index);
+                    legendItem.hidden = true;
+                } else {
+                    ci.show(index);
+                    legendItem.hidden = false;
+                }
+                legendItem.fillStyle = '#32a852';
+            }
+
+
+            // Setting up chart stuff  and ensure that previous one is destroyed first               
+            if (routeChart !== undefined) {
+                routeChart.destroy();
+            }
+            var ctx = $('#routeChart')[0].getContext("2d");
+            ctx.height = 1000;
+            var bgColors = ['rgb(165,42,42)', 'rgb(123,104,238)', 'rgb(255,140,0)', 'rgb(107,142,35)',
+                'rgb(102,205,170)', 'rgb(0,255,255)', 'rgb(95,158,160)', 'rgb(34,139,34)', 'rgb(173,216,230)', 'rgb(0,0,205)',
+                'rgb(240,230,140)', 'rgb(216,191,216)', 'rgb(255,20,147)', 'rgb(255,127,80)', 'rgb(139,69,19)', 'rgb(112,128,144)'];
+
+            $.ajax({
+                data: { 'routeName': rname }, // get the form data
+                url: "{% url 'getOutputData' %}",
+                type: 'POST',
+                // on success
+                success: function (response) {
+                    console.log("response", response)
+                    if (response.data === undefined) {
+                        return;
+                    }
+
+                    console.log("success in getting data")
+                    $('#rname').val("");
+                    var cleanLabels = [];
+                    let modes = ['Departure', 'Transit', 'Arrival', 'Stay'];
+                    var usedColors = [];
+                    var i = 0;
+                    response.labels.forEach(function (item, index) {
+                        var time = item.split('T')[1];
+                        var an = time.substr(0, time.length - 1);
+                        cleanLabels.push(an + ' ' + modes[index % modes.length]);
+                    });
+                    let k = 0;
+                    let data2 = new Array(cleanLabels.length).fill(100);
+
+                    for (let i = 0; i < cleanLabels.length; i++) {
+                        if (i % 4 === 0 && i > 0) {
+                            k += 1;
+                        }
+                        usedColors.push(bgColors[k]);
+                    }
+                    var cleanData = [];
+                    console.log("data2", data2);
+                    response.data.forEach(function (item, index) {
+                        cleanData.push(item.toFixed(2));
+                    });
+                    console.log("usedcolors", usedColors);
+                    routeChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: cleanLabels,
+                            datasets: [{
+                                label: 'SOC %',
+                                backgroundColor: usedColors,
+                                data: cleanData,
+                            },
+                            {
+                                type: 'bar',
+                                label: 'Trips',
+                                data: cleanData,
+                                backgroundColor: usedColors,
+                            }
+                            ],
+
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                    display: true,
+
+
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Vessel Enery Profile'
+                                },
+                            },
+                            responsive: true,
+
+                            scales: {
+                                y: { // defining min and max so hiding the dataset does not change scale range
+                                    min: 0,
+                                    max: 100
+                                }
+                            }
+                        },
+
+                    });
+                    $('#chartContainer').css("display", "");
+
+                },
+                // on error
+                error: function (response) {
+                    // alert the error if any error occured
+                    console.log(response.errors)
+                }
+            });
+
+            return false;
+        });
+    })
+    let add_trip_timings_button = $('#add-trip-timings');
+    let add_button_block = $('#add-button-block');
+    let departure_ind, transit_ind, arrival_ind, stay_ind;
+    departure_ind = transit_ind = arrival_ind = stay_ind = 1;
+    add_trip_timings_button.click((e) => {
+        // console.log("invoked");
+        let new_timing_row = $(`<div class="row">
+                <div class="col-sm-3">Departure Time</div>
+                <div class="col-sm-3">Transit Time</div>
+                <div class="col-sm-3">Arrival time</div>
+                <div class="col-sm-3">Charging Time</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"><div class="form-group"><label class="sr-only" for="id_departure_${departure_ind}">Departure</label><input type="datetime-local" name="departure-${departure_ind}" class="form-control" title="" required="" id="id_departure_${departure_ind}"></div></div>
+                <div class="col-sm-3"><div class="form-group"><label class="sr-only" for="id_transit_${transit_ind}">Transit</label><input type="datetime-local" name="transit-${transit_ind}" class="form-control" title="" required="" id="id_transit_${transit_ind}"></div></div>
+                <div class="col-sm-3"><div class="form-group"><label class="sr-only" for="id_arrival_${arrival_ind}">Arrival</label><input type="datetime-local" name="arrival-${arrival_ind}" class="form-control" title="" required="" id="id_arrival_${arrival_ind}"></div></div>
+                <div class="col-sm-3"><div class="form-group"><label class="sr-only" for="id_stay_${stay_ind}">Stay</label><input type="datetime-local" name="stay-${stay_ind}" class="form-control" title="" required="" id="id_stay_${stay_ind}"></div></div>
+            </div>
+            `);
+        // console.log('new timing row created');
+        // console.log(new_timing_row);
+        new_timing_row.insertBefore(add_button_block);
+    })
+</script>
+<script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
+{% endblock javascript %}

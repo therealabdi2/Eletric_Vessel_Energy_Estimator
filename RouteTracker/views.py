@@ -10,7 +10,7 @@ from .models import Route, CustomUser
 from .forms import RouteForm
 from django.http import JsonResponse
 import statistics
-
+from pprint import pprint
 """
 from .models import Author
 """
@@ -45,6 +45,7 @@ def view_routes(request):
     """ Meant to gather route details and display SOC levels """
     user = request.user
     if request.method == "POST":
+        pprint(request.POST)
         form = RouteForm(request.POST)
         if form.is_valid():
            route = form.save(commit=False) # get the new route without saving to database
